@@ -8,7 +8,7 @@ library(tibble)
 library(tidyr)
 library(Matrix)
 
-registerDoMC(cores = 11)
+registerDoMC(cores = 100)
 
 if (!file.exists("data/2018-census-main-means-of-travel-to-work-by-statistical-a.csv")) {
 
@@ -45,7 +45,7 @@ rsm <- foreach(i = seq_len(10000), .combine = rbind) %dopar% {
   stationary_distr(ptm)[,1]
 }
 
-saveRDs(rsm, "artifacts/resample-morning.rds")
+saveRDS(rsm, "artifacts/resample-morning.rds")
 
 # Evening
 rse <- foreach(i = seq_len(10000), .combine = rbind) %dopar% {
@@ -60,7 +60,7 @@ rse <- foreach(i = seq_len(10000), .combine = rbind) %dopar% {
   stationary_distr(ptm)[,1]
 }
 
-saveRDs(rse, "artifacts/resample-evening.rds")
+saveRDS(rse, "artifacts/resample-evening.rds")
 
 pte <- bg |>
   as_adjacency_matrix(attr = "count") |>
